@@ -13,7 +13,6 @@ public class TicketDAO4 extends DAO4 {
         super();
     }
 
-    // Danh sách vé đã bán của suất chiếu (để biết ghế nào đã có người đặt)
     public ArrayList<Ticket4> getTicketSold(int idShowTime) {
         ArrayList<Ticket4> list = new ArrayList<>();
         String sql = "SELECT id, ticketPrice, status, tblSeat4id FROM tblTicket4 " +
@@ -41,8 +40,6 @@ public class TicketDAO4 extends DAO4 {
         return list;
     }
 
-    // Tạo vé (chưa lưu CSDL) cho ghế đã chọn: giá vé = giá cơ bản của suất x hệ số của loại ghế.
-    // Vé chỉ được lưu khi tạo hóa đơn (createInvoice). Trả về null nếu ghế không thuộc phòng của suất chiếu.
     public Ticket4 createTicket(int idShowTime, int idSeat) {
         String sql = "SELECT st.basePrice, st.bonusPoints, s.seatRow, s.seatNumber, " +
                 "ty.id AS typeId, ty.nameSeatType, ty.priceRate, ty.note " +

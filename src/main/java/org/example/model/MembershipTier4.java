@@ -4,7 +4,7 @@ public class MembershipTier4 {
     private int id;
     private String nameMembershipTier;
     private int minTotalPoints;
-    private float discountRate; // tỷ lệ giảm giá, ví dụ 0.15 = 15%
+    private float discountRate;
 
     public MembershipTier4() {
     }

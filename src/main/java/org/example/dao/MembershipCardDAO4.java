@@ -10,7 +10,6 @@ public class MembershipCardDAO4 extends DAO4 {
         super();
     }
 
-    // Lấy thẻ thành viên + hạng thẻ của khách hàng; null nếu khách chưa có thẻ
     public MembershipCard4 getMembershipCard(int customerId) {
         String sql = "SELECT c.id, c.cardCode, c.issueDate, c.totalPoints, " +
                 "t.id AS tierId, t.nameMembershipTier, t.minTotalPoints, t.discountRate " +

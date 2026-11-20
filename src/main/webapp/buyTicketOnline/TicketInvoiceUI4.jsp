@@ -25,8 +25,8 @@
 </head>
 <body>
 <div class="card">
-    <div class="top"><b>CINEMAN</b><button onclick="location.href='../LoginUI4.jsp'">Đăng xuất</button></div>
-    <div class="ok">THANH TOÁN THÀNH CÔNG - VÉ & HÓA ĐƠN ĐIỆN TỬ</div>
+    <div class="top no-print"><b>CINEMAN</b><button onclick="location.href='../LoginUI4.jsp'">Đăng xuất</button></div>
+    <div class="ok no-print">THANH TOÁN THÀNH CÔNG - VÉ & HÓA ĐƠN ĐIỆN TỬ</div>
 
     <h3>Hóa đơn #HD<%= invoice.getId() %></h3>
     <table>
@@ -88,8 +88,8 @@
         </tbody>
     </table>
     <br/>
-    <button class="primary" onclick="window.print()">In / Tải PDF vé & hóa đơn</button>
-    <button onclick="location.href='MainCustomerUI4.jsp'">Về trang chủ</button>
+    <button class="primary no-print" onclick="window.print()">In / Tải PDF vé & hóa đơn</button>
+    <button class="no-print" onclick="location.href='MainCustomerUI4.jsp'">Về trang chủ</button>
 </div>
 </body>
 </html>

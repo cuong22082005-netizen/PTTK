@@ -11,7 +11,6 @@ public class ShowTimeDAO4 extends DAO4 {
         super();
     }
 
-    // Danh sách suất chiếu của phim đã chọn
     public ArrayList<ShowTime4> getShowTimeListByMovie(int idMovie) {
         ArrayList<ShowTime4> list = new ArrayList<>();
         String sql = "SELECT st.id, st.showDate, st.startTime, st.endTime, st.basePrice, st.bonusPoints, " +

@@ -120,3 +120,10 @@ a.primary {
   letter-spacing: 3px;
   margin-bottom: 15px;
 }
+
+@media print {
+    body { background: #fff; padding: 0; }
+    .no-print { display: none !important; }
+    .card { width: 100%; max-width: 100%; border: none; padding: 0; margin: 0; }
+    #invoice-area { width: 100%; }
+}

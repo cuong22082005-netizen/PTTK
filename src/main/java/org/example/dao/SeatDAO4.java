@@ -11,7 +11,6 @@ public class SeatDAO4 extends DAO4 {
         super();
     }
 
-    // Danh sách ghế của phòng chiếu (mỗi ghế kèm loại ghế)
     public ArrayList<Seat4> getSeatByScreeningRoom(int idScreeningRoom) {
         ArrayList<Seat4> list = new ArrayList<>();
         String sql = "SELECT s.id, s.seatRow, s.seatNumber, " +

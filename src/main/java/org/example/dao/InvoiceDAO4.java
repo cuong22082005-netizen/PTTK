@@ -15,11 +15,6 @@ public class InvoiceDAO4 extends DAO4 {
         super();
     }
 
-    // Tính chi tiết hóa đơn (chưa lưu CSDL):
-    //   totalAmount    = tổng giá vé các ghế đã chọn
-    //   discountAmount = totalAmount x discountRate của hạng thẻ (0 nếu không có thẻ)
-    //   finalAmount    = totalAmount - discountAmount
-    //   earnedPoints   = điểm thưởng của suất chiếu (chỉ khi có thẻ thành viên)
     public Invoice4 calculateInvoice(String cardCode, ArrayList<Ticket4> listTicket) {
         Invoice4 invoice = new Invoice4();
         float total = 0;
@@ -52,7 +47,6 @@ public class InvoiceDAO4 extends DAO4 {
         return invoice;
     }
 
-    // true = thành công | false = ghế đã có người đặt (Ngoại lệ 6a). Lỗi CSDL khác: hủy giao dịch và ném RuntimeException
     public boolean createInvoice(Invoice4 invoice) {
         if (invoice == null || invoice.getListTicket() == null || invoice.getListTicket().isEmpty()
                 || invoice.getCustomer() == null) {
@@ -70,7 +64,6 @@ public class InvoiceDAO4 extends DAO4 {
         try {
             con.setAutoCommit(false);
 
-            // 1. Kiểm tra ghế đã bị người khác thanh toán trước chưa (Ngoại lệ 6a)
             PreparedStatement psCheck = con.prepareStatement(checkSeatSql);
             for (Ticket4 t : invoice.getListTicket()) {
                 psCheck.setInt(1, t.getShowTime().getId());
@@ -81,7 +74,6 @@ public class InvoiceDAO4 extends DAO4 {
                 }
             }
 
-            // 2. Lưu hóa đơn
             PreparedStatement psInv = con.prepareStatement(insertInvoiceSql, Statement.RETURN_GENERATED_KEYS);
             psInv.setString(1, invoice.getPaymentMethod());
             psInv.setString(2, invoice.getChannel() != null ? invoice.getChannel() : "Online");
@@ -98,7 +90,6 @@ public class InvoiceDAO4 extends DAO4 {
             }
             int invoiceId = rsKey.getInt(1);
 
-            // 3. Lưu danh sách vé (khóa ghế thành đã bán)
             PreparedStatement psTicket = con.prepareStatement(insertTicketSql, Statement.RETURN_GENERATED_KEYS);
             for (Ticket4 t : invoice.getListTicket()) {
                 psTicket.setFloat(1, t.getTicketPrice());
@@ -113,7 +104,6 @@ public class InvoiceDAO4 extends DAO4 {
                 t.setStatus("SOLD");
             }
 
-            // 4. Cộng điểm tích lũy và cập nhật hạng thẻ
             MembershipCard4 card = invoice.getCustomer().getMembershipCard();
             int newPoints = 0;
             if (card != null && invoice.getEarnedPoints() > 0) {
@@ -133,7 +123,6 @@ public class InvoiceDAO4 extends DAO4 {
             }
             return true;
         } catch (SQLIntegrityConstraintViolationException e) {
-            // Ghế vừa bị người khác thanh toán (vi phạm ràng buộc duy nhất ghế + suất chiếu)
             try {
                 con.rollback();
             } catch (Exception ex) {
